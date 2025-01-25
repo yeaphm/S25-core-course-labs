@@ -73,3 +73,35 @@ A simple web application that displays the current time in **Moscow (MSK)** usin
 - pytz (timezone handling)  
 
 See [`requirements.txt`](./requirements.txt) for details.
+
+## Docker Instructions
+
+### Build the Image
+
+```bash
+docker build -t dockerhub-username/moscow-time-app:latest .
+```
+
+### Pull from Docker Hub
+
+You can use mine image:
+
+```bash
+docker pull efimpuzhalov/moscow-time-app:latest
+```
+
+### Run the Container
+
+```bash
+docker run -p 5000:5000 efimpuzhalov/moscow-time-app:latest
+```
+
+### Verify
+
+Access the app at `http://localhost:5000`.
+
+**Key Features**:  
+
+- 🛡️ Runs as non-root user (`appuser`).  
+- 🐳 Optimized layers for faster builds.  
+- 🔒 Security-hardened with `.dockerignore`.
