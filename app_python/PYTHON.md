@@ -1,11 +1,12 @@
 # Python Web Application
 
-## Framework Choice: **Flask**
+## Framework Choice: **FastAPI**
 
 - **Justification**:
-  - Lightweight and minimalistic for a simple time-display app.
-  - No unnecessary overhead (unlike Django).
-  - Easy to set up and deploy.
+  - **High Performance**: Built on ASGI, FastAPI is significantly faster than Flask.  
+  - **Modern Features**: Supports async/await, automatic data validation, and dependency injection.  
+  - **Automatic Documentation**: Generates interactive API docs (Swagger UI and ReDoc).  
+  - **Production-Ready**: Designed to work with Uvicorn, a production-ready ASGI server.
 
 ---
 
@@ -17,6 +18,7 @@
 
 2. **Code Quality**:
    - Isolated dependencies using a **virtual environment**.  
+   - Used FastAPI’s built-in validation and serialization for robust API design.
 
 3. **Project Structure**:
    - Separated application code (`app.py`) from documentation.  
@@ -27,12 +29,13 @@
 ## Manual Testing
 
 - **Verification Steps**:  
-  1. Run `python app.py` and access `http://localhost:5000` in a browser.  
+  1. Run `uvicorn app:app --host 0.0.0.0 --port 5000` and access `http://localhost:5000` in a browser.  
   2. Confirm the displayed time matches [Moscow’s current time](https://time.is/Moscow).  
+  3. Explore the interactive API docs at `http://localhost:5000/docs`.
 
 ---
 
 ## How to Run
 
 ```bash
-python app.py
+uvicorn app:app --host 0.0.0.0 --port 5000
