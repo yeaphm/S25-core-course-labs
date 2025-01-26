@@ -88,3 +88,21 @@ docker push dockerhub-username/moscow-time-csharp-app:latest
 - 🐳 Multi-stage build for optimized image size.  
 - 🛡️ Runs as non-root user (`appuser`).  
 - 🔒 Excludes unnecessary files via `.dockerignore`.  
+
+## Distroless Image Version
+
+### Usage
+
+```bash
+docker build -f distroless.Dockerfile -t moscow-time-distroless .
+docker run -p 8080:80 moscow-time-distroless
+
+# you can use mine:
+docker run -p 8080:80 efimpuzhalov/moscow-time-csharp-app-distroless:latest
+```
+
+### Distroless Features
+
+- 🔐 **Nonroot Execution**: Runs as nonroot by default ([official documentation](https://github.com/dotnet/dotnet-docker/blob/main/documentation/distroless.md))
+- 🐋 **Ultra-Small**: for regular .NET images
+- 🛡️ **Hardened Security**: No shells or package managers

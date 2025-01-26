@@ -5,7 +5,8 @@
 ### 1. **Multi-Stage Builds**  
 
 - **Build Stage**: Used `mcr.microsoft.com/dotnet/sdk:6.0` to compile the app.  
-- **Runtime Stage**: Used lightweight `mcr.microsoft.com/dotnet/aspnet:8.0` for production.  
+- **Runtime Stage**: Used lightweight `mcr.microsoft.com/dotnet/aspnet:8.0` for production.
+  - The runtime image is smaller (~200MB vs. SDK’s ~1GB) and contains only what’s needed to run the app.  
 
 ### 2. **Non-Root User**  
 
@@ -41,3 +42,39 @@ docker run -p 8080:80 efimpuzhalov/moscow-time-csharp-app:latest
 ```
 
 Access the app at `http://localhost:8080`.
+
+## Distroless Implementation
+
+This image uses Microsoft's official .NET Distroless base image with:
+
+- Minimal set of packages required for .NET applications
+- Non-root user by default
+- No package manager
+- No shell
+
+Official Documentation:  
+[.NET Distroless Images Documentation](https://github.com/dotnet/dotnet-docker/blob/main/documentation/distroless.md)
+
+### Distroless Image Comparison
+
+### Key Differences
+
+| **Aspect**          | **Original Image**               | **Distroless Image**                     |
+|----------------------|-----------------------------------|-------------------------------------------|
+| Base Image           | `mcr.microsoft.com/dotnet/aspnet:8.0` | `mcr.microsoft.com/dotnet/aspnet:8.0-noble-chiseled` |
+| Size (approx)        | ~240 MB                          | ~120 MB                                   |
+| Shell                | Yes (bash)                       | No                                        |
+| Package Managers     | Yes (apt, dpkg)                  | No                                        |
+| Non-Root User        | Explicitly created               | Pre-configured (UID 65532)               |
+| Attack Surface       | Larger (OS packages included)    | Minimal (only runtime dependencies)      |
+
+### Why Distroless?
+
+1. **Smaller Size**: Removes unnecessary OS packages and tools.  
+2. **Reduced Attack Surface**: No shell, package managers, or non-essential binaries.  
+3. **Strict Non-Root Execution**: Pre-configured non-root user with immutable permissions.  
+4. **Reproducibility**: Minimalist design reduces dependency drift.  
+
+### Image Size Comparison
+
+![Image Size Comparison](csharp_distroless_comparison.png) *Example screenshot*
