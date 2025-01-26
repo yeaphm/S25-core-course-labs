@@ -77,4 +77,4 @@ Official Documentation:
 
 ### Image Size Comparison
 
-![Image Size Comparison](csharp_distroless_comparison.png) *Example screenshot*
+![Image Size Comparison](csharp_distroless_comparison.png)
