@@ -123,6 +123,7 @@ docker run -p 5000:5000 moscow-time-distroless
 
 # Or use pre-built image
 docker run -p 5000:5000 efimpuzhalov/moscow-time-python-app-distroless:latest
+```
 
 ### Distroless Features
 
