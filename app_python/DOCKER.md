@@ -48,5 +48,6 @@
 4. **Production Hardened**: Regular security updates from Debian
 5. **Deterministic Builds**: No shell access prevents runtime modifications
 
-Official Documentation:  
-[Google Distroless Documentation](https://github.com/GoogleContainerTools/distroless)
+### Image Size Comparison
+
+![Image Size Comparison](python_distroless_comparison.png)
