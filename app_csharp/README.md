@@ -71,7 +71,7 @@ docker build -t dockerhub-username/moscow-time-csharp-app:latest .
 ### Run the Container
 
 ```bash
-docker run -p 8080:80 your-dockerhub-username/moscow-time-csharp-app:latest
+docker run -p 8080:80 dockerhub-username/moscow-time-csharp-app:latest
 
 # you can use mine:
 docker run -p 8080:80 efimpuzhalov/moscow-time-csharp-app:latest
