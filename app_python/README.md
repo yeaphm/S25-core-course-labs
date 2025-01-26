@@ -112,12 +112,6 @@ Access the app at `http://localhost:5000`.
 
 [Dockerhub](https://hub.docker.com/r/efimpuzhalov/moscow-time-python-app-distroless)
 
-### Features
-
-- 🔒 **Non-Root Execution**: Runs as UID 1000 by default
-- 🛡️ **Security First**: No shells (bash/sh) or package managers
-- 📦 **Dependency Control**: Only explicitly installed Python packages
-
 ### Usage
 
 ```bash
@@ -129,3 +123,9 @@ docker run -p 5000:5000 moscow-time-distroless
 
 # Or use pre-built image
 docker run -p 5000:5000 efimpuzhalov/moscow-time-python-app-distroless:latest
+
+### Distroless Features
+
+- 🔒 **Non-Root Execution**: Runs as UID 1000 by default
+- 🛡️ **Security First**: No shells (bash/sh) or package managers
+- 📦 **Dependency Control**: Only explicitly installed Python packages
