@@ -59,3 +59,28 @@ A web application that displays the current time in **Moscow (MSK)** using ASP.N
 - ASP.NET Core Runtime (managed via `.csproj` file).  
 
 See [CSHARP.md](CSHARP.md) for technical details.  
+
+## Docker Instructions
+
+### Build the Image
+```bash
+docker build -t dockerhub-username/moscow-time-csharp-app:latest .
+```
+
+### Run the Container
+```bash
+docker run -p 8080:80 your-dockerhub-username/moscow-time-csharp-app:latest
+
+# you can use mine:
+docker run -p 8080:80 efimpuzhalov/moscow-time-csharp-app:latest
+```
+
+### Push to Docker Hub
+```bash
+docker push dockerhub-username/moscow-time-csharp-app:latest
+```
+
+### Key Features  
+- 🐳 Multi-stage build for optimized image size.  
+- 🛡️ Runs as non-root user (`appuser`).  
+- 🔒 Excludes unnecessary files via `.dockerignore`.  
