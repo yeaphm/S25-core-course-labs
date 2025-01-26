@@ -24,3 +24,29 @@
 ### 5. **Explicit Versioning**  
 
 - Pinned Python and Alpine versions for reproducibility.  
+
+## Distroless Image Comparison
+
+### Key Differences
+
+| **Aspect**          | **Original Image (Alpine)**       | **Distroless Image**                     |
+|----------------------|-----------------------------------|-------------------------------------------|
+| Base Image           | `python:3.9-alpine3.15`          | `gcr.io/distroless/python3-debian11`     |
+| Size (approx)        | ~60 MB                          | ~67 MB                                   |
+| Shell                | Yes (busybox)                    | No                                        |
+| Package Managers     | Yes (apk)                        | No                                        |
+| User Configuration   | Explicitly created               | Fixed UID/GID (1000)                     |
+| Attack Surface       | 50+ Alpine packages              | Only Python runtime + dependencies       |
+| Security Scanning    | CVE scans needed                 | Pre-hardened by Google                   |
+| Dependencies         | musl libc                        | glibc with Debian security updates       |
+
+### Why Distroless?
+
+1. **Reduced Attack Surface**: 90% fewer packages than Alpine
+2. **Strict Non-Root Execution**: No root user capabilities
+3. **Supply Chain Security**: Verified build artifacts from Google
+4. **Production Hardened**: Regular security updates from Debian
+5. **Deterministic Builds**: No shell access prevents runtime modifications
+
+Official Documentation:  
+[Google Distroless Documentation](https://github.com/GoogleContainerTools/distroless)

@@ -76,6 +76,8 @@ See [`requirements.txt`](./requirements.txt) for details.
 
 ## Docker Instructions
 
+[Dockerhub](https://hub.docker.com/r/efimpuzhalov/moscow-time-python-app)
+
 ### Build the Image
 
 ```bash
@@ -105,3 +107,25 @@ Access the app at `http://localhost:5000`.
 - 🛡️ Runs as non-root user (`appuser`).  
 - 🐳 Optimized layers for faster builds.  
 - 🔒 Security-hardened with `.dockerignore`.
+
+## Distroless Image Version
+
+[Dockerhub](https://hub.docker.com/r/efimpuzhalov/moscow-time-python-app-distroless)
+
+### Features
+
+- 🔒 **Non-Root Execution**: Runs as UID 1000 by default
+- 🛡️ **Security First**: No shells (bash/sh) or package managers
+- 📦 **Dependency Control**: Only explicitly installed Python packages
+
+### Usage
+
+```bash
+# Build Distroless version
+docker build -f distroless.Dockerfile -t moscow-time-distroless .
+
+# Run container
+docker run -p 5000:5000 moscow-time-distroless
+
+# Or use pre-built image
+docker run -p 5000:5000 efimpuzhalov/moscow-time-python-app-distroless:latest
