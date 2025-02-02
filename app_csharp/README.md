@@ -110,3 +110,35 @@ docker run -p 8080:80 efimpuzhalov/moscow-time-csharp-app-distroless:latest
 - 🔐 **Nonroot Execution**: Runs as nonroot by default ([official documentation](https://github.com/dotnet/dotnet-docker/blob/main/documentation/distroless.md))
 - 🐋 **Ultra-Small**: for regular .NET images
 - 🛡️ **Hardened Security**: No shells or package managers
+
+## Unit Tests
+
+Unit tests are implemented to ensure the correctness and reliability of the application's functionality. They validate that the `HomeController` returns the accurate current time in Moscow (UTC+3).
+
+### Running Tests
+
+To execute the unit tests, follow these steps:
+
+1. **Ensure Dependencies Are Installed**:
+
+   ```bash
+   dotnet restore
+   ```
+
+2. **Run the Tests**:
+
+   ```bash
+   dotnet test
+   ```
+
+### Test Details
+
+- **Framework** : xUnit
+- **Test Project** : MoscowTimeApp.Tests
+- **Description** :
+  - Tests the `Index` action in `HomeController` to verify the returned Moscow time.
+  - Mocks `ILogger<HomeController>` to isolate the test scope.
+  - Asserts that the `ViewBag.MoscowTime` value matches the expected Moscow time.
+- **Assertions** :
+  - Ensures `ViewBag.MoscowTime` contains a valid timestamp in `yyyy-MM-dd HH:mm:ss` format.
+  - Confirms the displayed time is within an expected tolerance of execution delay.

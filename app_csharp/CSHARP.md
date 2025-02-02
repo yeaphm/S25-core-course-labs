@@ -20,6 +20,17 @@
 4. **Project Structure**:  
    - Followed ASP.NET Core conventions (e.g., `Controllers/`, `Views/`).  
    - Added `.gitignore` to exclude build artifacts (`bin/`, `obj/`).  
+5. **Unit Testing**:
+   - Used `xUnit` for structured, reliable testing.
+   - Employed `Moq` to mock dependencies, ensuring controller logic is testable.
+   - Validated the `HomeController` Index method correctly returns Moscow time.
+   - **How to Run**:
+
+      ``` bash
+      dotnet test
+      ```
+
+      This will execute all unit tests and confirm the correct functionality of the application.
 
 ---
 
