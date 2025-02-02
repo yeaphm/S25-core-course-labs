@@ -142,3 +142,32 @@ To execute the unit tests, follow these steps:
 - **Assertions** :
   - Ensures `ViewBag.MoscowTime` contains a valid timestamp in `yyyy-MM-dd HH:mm:ss` format.
   - Confirms the displayed time is within an expected tolerance of execution delay.
+
+## **CI Pipeline Overview**
+
+This repository includes a **GitHub Actions CI** pipeline to ensure code quality, security, and automated deployment for the C# application.
+
+### **🔄 CI Workflow Triggers**
+
+The workflow runs on **pull requests** affecting:
+- The `app_csharp/` directory
+- The `.github/workflows/csharp_app_ci.yml` file
+
+### **🛠️ CI Workflow Steps**
+
+#### **1️⃣ Build, Lint, and Test**
+- Sets up .NET 8.0.x environment
+- Caches NuGet packages for faster builds
+- Runs `dotnet format` for code style enforcement
+- Executes `dotnet build` and `dotnet test` with Release configuration
+
+#### **2️⃣ Security Check**
+- Scans solution file with **Snyk** for vulnerabilities
+- Requires `SNYK_TOKEN` secret for authenticated scanning
+
+#### **3️⃣ Docker Build & Push**
+- Builds and pushes **two optimized images**:
+  - **Standard .NET image** (`latest` tag)
+  - **Distroless image** (`distroless` tag)
+- Publishes to Docker Hub under `${{ secrets.DOCKER_USERNAME }}`
+- Uses GitHub Actions cache for build optimization
