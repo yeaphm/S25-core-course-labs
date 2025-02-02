@@ -30,7 +30,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Run Linter
-      run: dotnet format --verify-no-changes
+      run: dotnet format --verify-no-changes --workspace app_csharp/MoscowTimeApp/MoscowTimeApp.sln
 
     - name: Run Unit Tests
       run: dotnet test --configuration Release --no-restore --verbosity normal
