@@ -36,7 +36,7 @@ jobs:
       run: flake8 app.py test_app.py --max-line-length=88 --exclude venv
 
     - name: Run Tests
-      run: pytest test_app.py -v --cov=app --cov-report=xml
+      run: pytest test_app.py -v
 
   security-check:
     runs-on: ubuntu-22.04
