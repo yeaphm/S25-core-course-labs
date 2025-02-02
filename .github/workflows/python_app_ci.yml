@@ -71,7 +71,7 @@ jobs:
     - name: Build and push Alpine image
       uses: docker/build-push-action@v5
       with:
-        context: .
+        context: app_python  
         file: Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/moscow-time-py-app:latest
@@ -79,7 +79,7 @@ jobs:
     - name: Build and push Distroless image
       uses: docker/build-push-action@v5
       with:
-        context: .
+        context: app_python  
         file: distroless.Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/moscow-time-py-app:distroless
