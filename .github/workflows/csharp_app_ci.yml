@@ -38,12 +38,27 @@ jobs:
   security-check:
     runs-on: ubuntu-latest
     needs: [build-test-lint]
+    defaults:
+      run:
+        working-directory: app_csharp/MoscowTimeApp
     steps:
-      - uses: actions/checkout@v4
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/dotnet@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Run Snyk Security Scan
+      uses: snyk/actions/dotnet@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --file=MoscowTimeApp.sln
 
   docker-build-push:
     name: Build & Push Docker Image
