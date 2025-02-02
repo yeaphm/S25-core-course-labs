@@ -6,12 +6,6 @@ on:
       - 'app_csharp/**'
       - '.github/workflows/csharp_app_ci.yml'
 
-env:
-  DOTNET_VERSION: '8.0.x'
-  DOCKER_CONTEXT: app_csharp
-  DOCKERFILE_PATH: app_csharp/Dockerfile
-  DISTROLESS_DOCKERFILE: app_csharp/distroless.Dockerfile
-
 jobs:
   build-test-lint:
     name: Build, Lint, and Test
@@ -23,7 +17,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-version: '8.0.x'
 
     - name: Cache NuGet packages
       uses: actions/cache@v3
@@ -60,7 +54,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-version: '8.0.x'
 
     - name: Run Snyk Security Scan
       uses: snyk/actions/dotnet@master
@@ -77,8 +71,8 @@ jobs:
     strategy:
       matrix:
         dockerfile: 
-          - ${{ env.DOCKERFILE_PATH }}
-          - ${{ env.DISTROLESS_DOCKERFILE }}
+          - 'app_csharp/Dockerfile'
+          - 'app_csharp/distroless.Dockerfile'
         tags:
           - latest
           - distroless
@@ -98,7 +92,7 @@ jobs:
     - name: Build and push Docker images
       uses: docker/build-push-action@v5
       with:
-        context: ${{ env.DOCKER_CONTEXT }}
+        context: app_csharp
         file: ${{ matrix.dockerfile }}
         tags: ${{ secrets.DOCKER_USERNAME }}/moscow-time-cs-app:${{ matrix.tags }}
         push: true
