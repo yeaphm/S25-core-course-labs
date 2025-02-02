@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-test-lint:
+    name: Build, Lint, and Test
     defaults:
       run:
         working-directory: app_python
@@ -23,8 +24,8 @@ jobs:
         python-version: '3.9'
         cache: 'pip'
         cache-dependency-path: |
-          requirements.txt
-          requirements-dev.txt
+          app_python/requirements.txt
+          app_python/requirements-dev.txt
 
     - name: Install dependencies
       run: |
@@ -70,7 +71,7 @@ jobs:
       - name: Build & Push Multi-Arch Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: "{{defaultContext}}:app_python"
+          context: app_python
           push: true
           tags: "${{ secrets.DOCKER_USERNAME }}/moscow-time-py-app:latest"
           platforms: linux/amd64,linux/arm64,linux/arm/v7
