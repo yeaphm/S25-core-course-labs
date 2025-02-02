@@ -1,18 +1,18 @@
 # Stage 1: Build the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-# Set working directory in container
-WORKDIR /src
+# Set working directory to match the project's subfolder
+WORKDIR /src/MoscowTimeApp
 
-# 1. Copy the main project file first for better layer caching
-COPY ["app_csharp/MoscowTimeApp/MoscowTimeApp.csproj", "MoscowTimeApp/"]
-RUN dotnet restore "MoscowTimeApp/MoscowTimeApp.csproj"
+# Copy project file and restore dependencies
+COPY MoscowTimeApp/*.csproj .
+RUN dotnet restore
 
-# 2. Copy remaining source code
-COPY app_csharp/MoscowTimeApp/ MoscowTimeApp/
+# Copy remaining source code
+COPY MoscowTimeApp/ .
 
-# 3. Build specific project and publish
-RUN dotnet publish "MoscowTimeApp/MoscowTimeApp.csproj" \
+# Publish the app
+RUN dotnet publish "MoscowTimeApp.csproj" \
     -c Release \
     -o /app \
     --no-restore
@@ -21,16 +21,18 @@ RUN dotnet publish "MoscowTimeApp/MoscowTimeApp.csproj" \
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
-# Copy build artifacts
+# Copy build artifacts from the build stage
 COPY --from=build /app .
 
-# Security enhancements
+# Set environment variables for production
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://+:80
+
+# Create non-root user
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && \
     chown -R appuser:appuser /app
 USER appuser
 
-# Runtime configuration
-ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ASPNETCORE_URLS=http://+:80
+# Expose port and run the app
 EXPOSE 80
 ENTRYPOINT ["dotnet", "MoscowTimeApp.dll"]
