@@ -79,3 +79,11 @@ jobs:
         file: app_csharp/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/moscow-time-cs-app:latest
+    
+    - name: Build and push Distroless Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: app_csharp
+        file: app_csharp/distroless.Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/moscow-time-cs-app:distroless

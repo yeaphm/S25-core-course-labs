@@ -4,7 +4,10 @@ WORKDIR /src/MoscowTimeApp
 COPY MoscowTimeApp/*.csproj .
 RUN dotnet restore
 COPY MoscowTimeApp/ .
-RUN dotnet publish -c Release -o /app
+RUN dotnet publish "MoscowTimeApp.csproj" \
+    -c Release \
+    -o /app \
+    --no-restore
 
 # Stage 2: Use Distroless .NET runtime image (nonroot by default)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble-chiseled
