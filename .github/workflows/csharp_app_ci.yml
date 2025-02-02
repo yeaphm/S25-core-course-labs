@@ -56,13 +56,16 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
+    - name: Restore dependencies
+      working-directory: app_csharp/MoscowTimeApp
+      run: dotnet restore
+
     - name: Run Snyk Security Scan
       uses: snyk/actions/dotnet@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        working-directory: app_csharp/MoscowTimeApp
-        args: --file=MoscowTimeApp.sln
+        args: --file=app_csharp/MoscowTimeApp/MoscowTimeApp.sln
 
   docker-build-push:
     name: Build & Push Docker Images
