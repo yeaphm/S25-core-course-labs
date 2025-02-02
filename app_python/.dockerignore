@@ -1,6 +1,8 @@
 venv/
 __pycache__/
-.git/
+.pytest_cache/
+.git*
+*.git
 *.pyc
 *.pyo
 *.pyd
@@ -8,3 +10,11 @@ __pycache__/
 Dockerfile
 README.md
 PYTHON.md
+
+.pylintrc
+pyproject.toml
+
+*.md
+*.png
+
+requirements-dev.txt

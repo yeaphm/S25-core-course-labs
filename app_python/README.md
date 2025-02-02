@@ -130,3 +130,41 @@ docker run -p 5000:5000 efimpuzhalov/moscow-time-python-app-distroless:latest
 - 🔒 **Non-Root Execution**: Runs as UID 1000 by default
 - 🛡️ **Security First**: No shells (bash/sh) or package managers
 - 📦 **Dependency Control**: Only explicitly installed Python packages
+
+## Unit Tests
+
+Unit tests are implemented to ensure the correctness and reliability of the application's functionality. They validate that the `/` endpoint returns the accurate current time in Moscow (UTC+3).
+
+### Running Tests
+
+To execute the unit tests, follow these steps:
+
+1. **Ensure Dependencies Are Installed**:
+
+   ```bash
+   pip install -r requirements.txt -r requirements-dev.txt
+   ```
+
+2. **Run the Tests**:
+
+   ```bash
+   pytest test_app.py
+   ```
+
+### Test Details
+
+- **Framework** : pytest
+- **Test File** : test_app.py
+- **Description** :
+  - Simulates a GET request to the `/` endpoint using `fastapi.testclient.TestClient`.
+  - Compares the returned time with the current Moscow time generated using `pytz`.
+  - Allows for a ±5-second tolerance to account for potential execution delays.
+- **Assertions** :
+   Verifies the HTTP status code is `200` (OK).
+   Ensures the returned time matches the expected Moscow time within the allowed tolerance.
+
+### Best Practices Applied
+
+- **Isolation** : Tests are independent and do not rely on external services or shared state.
+- **Validation** : Assertions are used to verify both the structure and content of the API response.
+- **Timezone Handling** : Accurate timezone handling is ensured using `pytz`.

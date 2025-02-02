@@ -24,6 +24,9 @@
    - Separated application code (`app.py`) from documentation.  
    - Added `.gitignore` to exclude virtual environments and cache files.  
 
+4. **Testing**:
+   - Implemented **unit tests** using `pytest` to ensure correctness and reliability.
+
 ---
 
 ## Manual Testing
@@ -34,6 +37,19 @@
   3. Explore the interactive API docs at `http://localhost:5000/docs`.
 
 ---
+
+## Unit Tests
+
+- **Purpose**: To validate the functionality of the `/` endpoint, ensuring it returns the correct Moscow time.
+- **Framework**: Used `pytest` with `fastapi.testclient.TestClient` for testing the FastAPI application.
+- **Test Description**:
+  - Simulated a GET request to the root endpoint (`/`) using `TestClient`.  
+  - Compared the returned time with the current Moscow time generated using `pytz`.  
+  - Allowed for a small delay in execution by comparing seconds within a ±5-second tolerance.
+- **Best Practices Applied**:
+  - Ensured test independence by not relying on external services or shared state.  
+  - Used assertions to verify HTTP status codes and response content.  
+  - Included detailed time comparisons to account for potential delays in execution.
 
 ## How to Run
 
