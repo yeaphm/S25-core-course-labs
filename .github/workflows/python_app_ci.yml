@@ -72,7 +72,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: app_python  
-        file: Dockerfile
+        file: app_python/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/moscow-time-py-app:latest
 
@@ -80,6 +80,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: app_python  
-        file: distroless.Dockerfile
+        file: app_python/distroless.Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/moscow-time-py-app:distroless
