@@ -74,7 +74,6 @@ jobs:
     strategy:
       matrix:
         dockerfile: 
-          - 'app_csharp/Dockerfile'
           - 'app_csharp/distroless.Dockerfile'
         tags:
           - latest
