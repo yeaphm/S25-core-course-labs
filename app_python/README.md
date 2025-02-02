@@ -1,7 +1,8 @@
 # Moscow Time Web Application
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)  
-![FastAPI](https://img.shields.io/badge/Framework-FastAPI-green)  
+![FastAPI](https://img.shields.io/badge/Framework-FastAPI-green)
+![CI/CD Workflow](https://github.com/yeaphm/S25-core-course-labs/actions/workflows/python_app_ci.yml/badge.svg)
 
 ## Overview
 
@@ -168,3 +169,33 @@ To execute the unit tests, follow these steps:
 - **Isolation** : Tests are independent and do not rely on external services or shared state.
 - **Validation** : Assertions are used to verify both the structure and content of the API response.
 - **Timezone Handling** : Accurate timezone handling is ensured using `pytz`.
+
+## **CI Pipeline Overview**
+
+This repository includes a **GitHub Actions CI** pipeline to ensure high-quality code, security, and automated deployment.
+
+### **🔄 CI Workflow Triggers**
+
+The workflow runs on **pull requests** affecting:
+
+- The `app_python/` directory.
+- The `.github/workflows/app_python.yml` file.
+
+### **🛠️ CI Workflow Steps**
+
+#### **1️⃣ Build, Lint, and Test**
+
+- Installs dependencies using `pip`.
+- Runs `flake8` for linting (max line length: 88).
+- Executes `pytest` to validate functionality.
+
+#### **2️⃣ Security Check**
+
+- Uses **Snyk** to scan dependencies for security vulnerabilities.
+
+#### **3️⃣ Docker Build & Push**
+
+- Builds and pushes **two images**:
+  - **Alpine-based image** (`latest` tag).
+  - **Distroless-based image** (`distroless` tag).
+- Pushes images to Docker Hub under `${{ secrets.DOCKER_USERNAME }}`.
