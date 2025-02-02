@@ -2,6 +2,7 @@
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-blue)  
 ![ASP.NET Core](https://img.shields.io/badge/Framework-ASP.NET_Core-green)
+![CI/CD Workflow](https://github.com/yeaphm/S25-core-course-labs/actions/workflows/csharp_app_ci.yml/badge.svg)
 
 ## Overview  
 
