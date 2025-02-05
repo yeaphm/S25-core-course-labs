@@ -42,7 +42,7 @@ Committed files:
 - `variables.tf` - Variable declarations
 - `TF.md` - Documentation
 
-## 5. Provider Management
+### 4. Provider Management
 
 Maintaining provider versions for stability:
 
