@@ -1,13 +1,56 @@
 # Terraform in practice
 
-## Best practices
+## Best Practices Applied
 
-using terraform fmt 
-and validation using terraform validate
+### 1. Code Quality & Validation
 
-.gitignore
+Ensuring code consistency and correctness:
 
-storing tokens locally and using them as vars
+```bash
+# Enforce formatting across all configurations
+terraform fmt -recursive
+
+# Validate syntax and logical correctness
+terraform validate
+```
+
+### 2. Sensitive Data Handling
+
+Secure storage and management of credentials:
+
+```hcl
+# Local Configuration Files (Git ignored)
+# .gitignore entry
+*.auto.tfvars
+*.tfvars
+```
+
+### 3. Version Control Safety
+
+Managing Terraform state and ignored files:
+
+```gitignore
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.auto.tfvars
+```
+
+Committed files:
+
+- `main.tf` - Core configuration
+- `variables.tf` - Variable declarations
+- `TF.md` - Documentation
+
+## 5. Provider Management
+
+Maintaining provider versions for stability:
+
+```hcl
+provider "..." {
+  version = "~> N.0" # Strict version constraint
+}
+```
 
 ## Docker Infrastructure Using Terraform
 
@@ -284,9 +327,245 @@ container_id = "755946cae6aa15e743284c44e9de39343e9256752a3e3642436639a3b5f98f0d
 image_id = "sha256:c59e925d63f3aa135bfa9d82cb03fba9ee30edb22ebe6c9d4f43824312ba3d9bnginx"
 ```
 
-## Yandex Using Terraform:
+## Yandex Using Terraform
 
+### Challenges
 
+The most challenge for me was to find free plan cloud as I have already played with Yandex one and exhausted all the limits.
+After the years of research I decided to share the VM of my kind friend =)
+
+### Set up
+
+## Yandex
+
+Yandex has an well formatted official documentation, so the process of the cloud set up was pretty straightforward.
+
+```bash
+yc init
+```
+
+```bash
+yc config profile create devops  
+```
+
+Export envs
+
+```bash
+export YC_TOKEN=$(yc iam create-token)                               
+export YC_CLOUD_ID=$(yc config get cloud-id)
+export YC_FOLDER_ID=$(yc config get folder-id)
+```
+
+`terraform plan`
+
+```bash
+PS E:\Documents\Innop\C3\S2\devops\S25-core-course-labs\terraform\yandex> terraform plan
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # yandex_compute_disk.boot-disk-1 will be created
+  + resource "yandex_compute_disk" "boot-disk-1" {
+      + block_size  = 4096
+      + created_at  = (known after apply)
+      + folder_id   = (known after apply)
+      + id          = (known after apply)
+      + image_id    = "fd86cpunl4kkspv0u25a"
+      + name        = "boot-disk-1"
+      + product_ids = (known after apply)
+      + size        = 20
+      + status      = (known after apply)
+      + type        = "network-hdd"
+      + zone        = "ru-central1-a"
+    }
+
+  # yandex_compute_disk.boot-disk-2 will be created
+  + resource "yandex_compute_disk" "boot-disk-2" {
+      + block_size  = 4096
+      + created_at  = (known after apply)
+      + folder_id   = (known after apply)
+      + id          = (known after apply)
+      + image_id    = "fd86cpunl4kkspv0u25a"
+      + name        = "boot-disk-2"
+      + product_ids = (known after apply)
+      + size        = 20
+      + status      = (known after apply)
+      + type        = "network-hdd"
+      + zone        = "ru-central1-a"
+    }
+
+  # yandex_compute_instance.vm-1 will be created
+  + resource "yandex_compute_instance" "vm-1" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = <<-EOT
+                ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDGBCnkRvJrkmHNQWy+ZLMB+BWWlrgqd2Xf8bnLW8OAV s.lekhtin
+            EOT
+        }
+      + name                      = "terraform1"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = (known after apply)
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 2
+          + memory        = 2
+        }
+    }
+
+  # yandex_compute_instance.vm-2 will be created
+  + resource "yandex_compute_instance" "vm-2" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = <<-EOT
+                ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDGBCnkRvJrkmHNQWy+ZLMB+BWWlrgqd2Xf8bnLW8OAV s.lekhtin
+            EOT
+        }
+      + name                      = "terraform2"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = (known after apply)
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 4
+          + memory        = 4
+        }
+    }
+
+  # yandex_vpc_network.network-1 will be created
+  + resource "yandex_vpc_network" "network-1" {
+      + created_at                = (known after apply)
+      + default_security_group_id = (known after apply)
+      + folder_id                 = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = (known after apply)
+      + name                      = "network1"
+      + subnet_ids                = (known after apply)
+    }
+
+  # yandex_vpc_subnet.subnet-1 will be created
+  + resource "yandex_vpc_subnet" "subnet-1" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet1"
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.10.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+Plan: 6 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + external_ip_address_vm_1 = (known after apply)
+  + external_ip_address_vm_2 = (known after apply)
+  + internal_ip_address_vm_1 = (known after apply)
+  + internal_ip_address_vm_2 = (known after apply)
+```
+
+`terraform apply`
+
+```bash
+PS E:\Documents\Innop\C3\S2\devops\S25-core-course-labs\terraform\yandex> terraform apply
+
+...
+yandex_vpc_network.network-1: Creating...
+yandex_compute_disk.boot-disk-1: Creating...
+yandex_compute_disk.boot-disk-2: Creating...
+yandex_vpc_network.network-1: Creation complete after 3s [id=enpl111c4fqjeaa6lcku]
+yandex_vpc_subnet.subnet-1: Creating...
+yandex_vpc_subnet.subnet-1: Creation complete after 1s [id=e9bmg59rnir1rh0il0ii]
+yandex_compute_disk.boot-disk-2: Creation complete after 7s [id=fhmt9lfoa30368s63ghg]
+yandex_compute_instance.vm-2: Creating...
+yandex_compute_disk.boot-disk-1: Still creating... [10s elapsed]
+yandex_compute_disk.boot-disk-1: Creation complete after 12s [id=fhmt1tufbq1tv73rju6s]
+yandex_compute_instance.vm-1: Creating...
+yandex_compute_instance.vm-2: Still creating... [10s elapsed]
+yandex_compute_instance.vm-1: Still creating... [10s elapsed]
+yandex_compute_instance.vm-2: Still creating... [21s elapsed]
+yandex_compute_instance.vm-1: Still creating... [20s elapsed]
+yandex_compute_instance.vm-2: Creation complete after 26s [id=fhm8jpcqltt2sj5i7oqr]
+yandex_compute_instance.vm-1: Creation complete after 25s [id=fhm31bbe78akca0tlvev]
+
+Apply complete! Resources: 6 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+external_ip_address_vm_1 = "158.160.49.176"
+external_ip_address_vm_2 = "158.160.34.120"
+internal_ip_address_vm_1 = "192.168.10.27"
+internal_ip_address_vm_2 = "192.168.10.12"
+```
 
 ## Terraform for GitHub
 
@@ -434,8 +713,144 @@ Apply complete! Resources: 2 added, 1 changed, 0 destroyed.
 
 ## GitHub Teams Using Terraform
 
+[Resulted Repo](https://github.com/devops-efim/devops-efim)
 
+`terraform apply`
 
+```bash
+PS E:\Documents\Innop\C3\S2\devops\S25-core-course-labs\terraform\gihub-teams> terraform apply
 
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
 
+Terraform will perform the following actions:
 
+  # github_branch_default.main_branch will be created
+  + resource "github_branch_default" "main_branch" {
+      + branch     = "main"
+      + id         = (known after apply)
+      + repository = "devops-efim"
+    }
+
+  # github_branch_protection.repo_protection will be created
+  + resource "github_branch_protection" "repo_protection" {
+      + allows_deletions                = false
+      + allows_force_pushes             = false
+      + blocks_creations                = false
+      + enforce_admins                  = true
+      + id                              = (known after apply)
+      + pattern                         = "main"
+      + repository_id                   = (known after apply)
+      + require_conversation_resolution = true
+      + require_signed_commits          = false
+      + required_linear_history         = false
+
+      + required_pull_request_reviews {
+          + required_approving_review_count = 0
+        }
+    }
+
+  # github_repository.repository will be created
+  + resource "github_repository" "repository" {
+      + allow_auto_merge            = false
+      + allow_merge_commit          = true
+      + allow_rebase_merge          = true
+      + allow_squash_merge          = true
+      + archived                    = false
+      + auto_init                   = true
+      + branches                    = (known after apply)
+      + default_branch              = (known after apply)
+      + delete_branch_on_merge      = false
+      + description                 = "Repository for devops-efim"
+      + etag                        = (known after apply)
+      + full_name                   = (known after apply)
+      + git_clone_url               = (known after apply)
+      + has_issues                  = true
+      + html_url                    = (known after apply)
+      + http_clone_url              = (known after apply)
+      + id                          = (known after apply)
+      + merge_commit_message        = "PR_TITLE"
+      + merge_commit_title          = "MERGE_MESSAGE"
+      + name                        = "devops-efim"
+      + node_id                     = (known after apply)
+      + private                     = (known after apply)
+      + repo_id                     = (known after apply)
+      + squash_merge_commit_message = "COMMIT_MESSAGES"
+      + squash_merge_commit_title   = "COMMIT_OR_PR_TITLE"
+      + ssh_clone_url               = (known after apply)
+      + svn_url                     = (known after apply)
+      + visibility                  = "public"
+    }
+
+  # github_team.contributors will be created
+  + resource "github_team" "contributors" {
+      + create_default_maintainer = false
+      + description               = "Contributors"
+      + etag                      = (known after apply)
+      + id                        = (known after apply)
+      + members_count             = (known after apply)
+      + name                      = "Repository contributors"
+      + node_id                   = (known after apply)
+      + privacy                   = "closed"
+      + slug                      = (known after apply)
+    }
+
+  # github_team.maintainers will be created
+  + resource "github_team" "maintainers" {
+      + create_default_maintainer = false
+      + description               = "Maintainers"
+      + etag                      = (known after apply)
+      + id                        = (known after apply)
+      + members_count             = (known after apply)
+      + name                      = "Repository maintainers"
+      + node_id                   = (known after apply)
+      + privacy                   = "closed"
+      + slug                      = (known after apply)
+    }
+
+  # github_team_repository.contributors will be created
+  + resource "github_team_repository" "contributors" {
+      + etag       = (known after apply)
+      + id         = (known after apply)
+      + permission = "push"
+      + repository = "devops-efim"
+      + team_id    = (known after apply)
+    }
+
+  # github_team_repository.maintainers will be created
+  + resource "github_team_repository" "maintainers" {
+      + etag       = (known after apply)
+      + id         = (known after apply)
+      + permission = "maintain"
+      + repository = "devops-efim"
+      + team_id    = (known after apply)
+    }
+
+Plan: 7 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+github_team.contributors: Creating...
+github_team.maintainers: Creating...
+github_repository.repository: Creating...
+github_team.maintainers: Still creating... [10s elapsed]
+github_team.contributors: Still creating... [10s elapsed]
+github_repository.repository: Still creating... [10s elapsed]
+github_team.contributors: Creation complete after 15s [id=12122253]
+github_team.maintainers: Creation complete after 16s [id=12122254]
+github_repository.repository: Creation complete after 17s [id=devops-efim]
+github_branch_default.main_branch: Creating...
+github_team_repository.contributors: Creating...
+github_team_repository.maintainers: Creating...
+github_branch_default.main_branch: Creation complete after 2s [id=devops-efim]
+github_branch_protection.repo_protection: Creating...
+github_team_repository.contributors: Creation complete after 7s [id=12122253:devops-efim]
+github_team_repository.maintainers: Creation complete after 7s [id=12122254:devops-efim]
+github_branch_protection.repo_protection: Creation complete after 9s [id=BPR_kwDON06eic4DieZq]
+
+Apply complete! Resources: 7 added, 0 changed, 0 destroyed.
+```
