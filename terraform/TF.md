@@ -336,9 +336,7 @@ After the years of research I decided to share the VM of my kind friend =)
 
 ### Set up
 
-## Yandex
-
-Yandex has an well formatted official documentation, so the process of the cloud set up was pretty straightforward.
+Yandex has a well formatted official documentation, so the process of the cloud set up was pretty straightforward.
 
 ```bash
 yc init
